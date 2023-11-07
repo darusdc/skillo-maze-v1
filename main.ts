@@ -496,10 +496,11 @@ let answers: number[] = []
 let question: string[] = []
 let spriteHasTouched: Sprite[] = []
 let countDown = 10
+let allGone = false;
 question = ["2+2x2?", "2x5+3?", "3000:2"]
 answers = [6, 13, 1500]
 game.splash("Labirin Kehidupan", "Apakah kamu bisa sukses?")
-tiles.setCurrentTilemap(tilemap`level1`)
+tiles.setCurrentTilemap(tilemap`level0`)
 initPlayer()
 initHartaKarun()
 for (let value22 of tiles.getTilesByType(sprites.dungeon.collectibleInsignia)) {
@@ -633,8 +634,11 @@ game.onUpdate(function () {
                 tiles.placeOnTile(mySprite, tiles.getTileLocation(1, 0))
                 tiles.setTileAt(value3, sprites.dungeon.darkGroundCenter)
             }
+            if (!allGone) {
             game.showLongText(`Kamu telah menjawab semua pertanyaan, sekarang waktu kamu ${countDown} detik untuk menyelamatkan semua kucing!`, DialogLayout.Full)
             info.startCountdown(countDown)
+            }
+            allGone = true
         } else {
             whenWin(false)
         }
