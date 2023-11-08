@@ -377,7 +377,6 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     music.stopAllSounds()
     music.play(music.createSong(hex`0078000408020302001c000c960064006d019001000478002c010000640032000000000a060005120008000c00012418001c00012428002c00012a03001c0001dc00690000045e01000400000000000000000000056400010400032a0000000400011b08000c00011d1000140001201400180001191c002000011d24002800012028002c00011b04001c00100500640000041e000004000000000000000000000000000a0400042a0000000400011d08000c00011e10001400012214001800011d1c002000011e20002400012424002800011d`), music.PlaybackMode.LoopingInBackground)
-    randomQue = randint(0, question.length - 1)
     answer = game.askForNumber(question[randomQue])
     if (answer == answers[randomQue]) {
         info.changeScoreBy(1)
@@ -392,6 +391,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
         sprites.destroy(otherSprite)
         info.changeLifeBy(-1)
     }
+    randomQue++
     music.stopAllSounds()
     music.play(music.createSong(hex`0078000408020300001c00010a006400f4016400000400000000000000000000000000050000043b0000000400011904000800031d202408000c0001240c001000012710001400012a14001800012418001c0002202420002400021b1e28002c0002191b05001c000f0a006400f4010a0000040000000000000000000000000000000002250000000400011d08000c00012010001400012418001c0001272000240002222528002c00011e06001c00010a006400f401640000040000000000000000000000000000000002180004000800012008000c00012710001400012c18001c000129`), music.PlaybackMode.LoopingInBackground)
 })
@@ -484,6 +484,7 @@ function initHartaKarun () {
         )
     }
 }
+let allGone = false
 let mySprite: Sprite = null
 let hartaKarun: Sprite = null
 let randomDog = 0
@@ -496,7 +497,6 @@ let answers: number[] = []
 let question: string[] = []
 let spriteHasTouched: Sprite[] = []
 let countDown = 10
-let allGone = false;
 question = ["2+2x2?", "2x5+3?", "3000:2"]
 answers = [6, 13, 1500]
 game.splash("Labirin Kehidupan", "Apakah kamu bisa sukses?")
@@ -634,9 +634,9 @@ game.onUpdate(function () {
                 tiles.placeOnTile(mySprite, tiles.getTileLocation(1, 0))
                 tiles.setTileAt(value3, sprites.dungeon.darkGroundCenter)
             }
-            if (!allGone) {
-            game.showLongText(`Kamu telah menjawab semua pertanyaan, sekarang waktu kamu ${countDown} detik untuk menyelamatkan semua kucing!`, DialogLayout.Full)
-            info.startCountdown(countDown)
+            if (!(allGone)) {
+                game.showLongText(`Kamu telah menjawab semua pertanyaan, sekarang waktu kamu ${countDown} detik untuk menyelamatkan semua kucing!`, DialogLayout.Full)
+                info.startCountdown(countDown)
             }
             allGone = true
         } else {
